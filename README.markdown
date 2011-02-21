@@ -1,20 +1,20 @@
 # Sfalma <http://sfalma.com>
 
-Sfalma helps you track errors in your Ruby apps, this gem is a fork of Sfalma.
+Sfalma helps you track errors in your Ruby apps, this gem is a fork of Exceptional.
 
 This Gem/Plugin posts exception data to Sfalma <http://sfalma.com>. Data about the request, session, environment and a backtrace of the exception is sent.
 
 ## Rails 2.x Installation
 
 1. Install the Gem
-<pre>gem install exceptional</pre>
+<pre>gem install sfalma</pre>
 2. Add config.gem entry to 'config/environment.rb'
-<pre>config.gem 'exceptional'
+<pre>config.gem 'sfalma'
 3. Create your account and app at <http://sfalma.com>
 4. Configue your API Key
 <pre>$ sfalma install <api-key></pre>
 using the api-key from the app settings screen within Sfalma
-5. Test with <pre>exceptional test</pre>
+5. Test with <pre>sfalma test</pre>
 
 ## Rails 3 Installation
 
