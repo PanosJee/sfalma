@@ -1,12 +1,12 @@
-require 'exceptional'
+require 'sfalma'
 
 # If old plugin still installed then we don't want to install this one.
 # In production environments we should continue to work as before, but in development/test we should
 # advise how to correct the problem and exit
-if (defined?(Exceptional::VERSION::STRING) rescue nil) && %w(development test).include?(RAILS_ENV)
+if (defined?(Sfalma::VERSION::STRING) rescue nil) && %w(development test).include?(RAILS_ENV)
   message = %Q(
   ***********************************************************************
-  You seem to still have an old version of the Exceptional plugin installed.
+  You seem to still have an old version of the Sfalma plugin installed.
   Remove it from /vendor/plugins and try again.
   ***********************************************************************
   )
@@ -16,24 +16,24 @@ else
   begin
 
     if (Rails::VERSION::MAJOR < 3)    
-      Exceptional::Config.load(File.join(RAILS_ROOT, "/config/exceptional.yml"))
-      if Exceptional::Config.should_send_to_api?
-        Exceptional.logger.info("Loading Exceptional #{Exceptional::VERSION} for #{Rails::VERSION::STRING}")      
-        require File.join('exceptional', 'integration', 'rails')    
-        require File.join('exceptional', 'integration', 'dj') if defined?(Delayed::Job)
+      Sfalma::Config.load(File.join(RAILS_ROOT, "/config/sfalma.yml"))
+      if Sfalma::Config.should_send_to_api?
+        Sfalma.logger.info("Loading Sfalma #{Sfalma::VERSION} for #{Rails::VERSION::STRING}")      
+        require File.join('sfalma', 'integration', 'rails')    
+        require File.join('sfalma', 'integration', 'dj') if defined?(Delayed::Job)
       end
     else
-      Exceptional::Config.load(File.join(Rails.root, "/config/exceptional.yml"))
+      Sfalma::Config.load(File.join(Rails.root, "/config/sfalma.yml"))
       
-      if Exceptional::Config.should_send_to_api?
-        Exceptional.logger.info("Loading Exceptional #{Exceptional::VERSION} for #{Rails::VERSION::STRING}")      
-        Rails.configuration.middleware.use "Rack::RailsExceptional"
-        require File.join('exceptional', 'integration', 'dj') if defined?(Delayed::Job)
+      if Sfalma::Config.should_send_to_api?
+        Sfalma.logger.info("Loading Sfalma #{Sfalma::VERSION} for #{Rails::VERSION::STRING}")      
+        Rails.configuration.middleware.use "Rack::RailsSfalma"
+        require File.join('sfalma', 'integration', 'dj') if defined?(Delayed::Job)
       end      
     end
   rescue => e
-    STDERR.puts "Problem starting Exceptional Plugin. Your app will run as normal. #{e.message}"
-    Exceptional.logger.error(e.message)
-    Exceptional.logger.error(e.backtrace)
+    STDERR.puts "Problem starting Sfalma Plugin. Your app will run as normal. #{e.message}"
+    Sfalma.logger.error(e.message)
+    Sfalma.logger.error(e.backtrace)
   end
 end

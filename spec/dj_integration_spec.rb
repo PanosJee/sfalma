@@ -11,19 +11,19 @@ module Delayed
   end
 end
 
-require File.join(File.dirname(__FILE__), '..', 'lib', 'exceptional', 'integration', 'dj')
+require File.join(File.dirname(__FILE__), '..', 'lib', 'sfalma', 'integration', 'dj')
 
 describe Delayed::Job do
   before :each do
     @job =  Delayed::Job.new
     @exception = StandardError.new
   end
-  it "should handle exceptions with Exceptional" do
-    Exceptional.should_receive(:handle).with(@exception, "Delayed::Job My delayed job")
+  it "should handle exceptions with Sfalma" do
+    Sfalma.should_receive(:handle).with(@exception, "Delayed::Job My delayed job")
     @job.log_exception(@exception)
   end
   it "should clear context" do
-    Exceptional.should_receive(:clear!)
+    Sfalma.should_receive(:clear!)
     @job.log_exception(@exception)
   end
 end

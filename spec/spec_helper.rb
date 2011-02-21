@@ -6,7 +6,7 @@ rescue LoadError
 end
 
 gem 'rails'
-require File.dirname(__FILE__) + '/../lib/exceptional' unless defined?(Exceptional)
+require File.dirname(__FILE__) + '/../lib/sfalma' unless defined?(Sfalma)
 
 ENV['RAILS_ENV'] = 'test'
 
