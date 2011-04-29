@@ -29,7 +29,7 @@ using the api-key from the app settings screen within Sfalma
 
 
 ### Sfalma also supports your rack, sinatra and plain ruby apps
-For more information check out our docs site <http://docs.sfalma.com>
+For more information check out our docs site <http://www.sfalma.com/docs>
 
 Copyright © 2011 Sfalma.
 Copyright © 2008, 2010 Contrast.
