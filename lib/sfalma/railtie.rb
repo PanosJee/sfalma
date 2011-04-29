@@ -13,6 +13,7 @@ module Sfalma
       if Sfalma::Config.should_send_to_api?
         Sfalma.logger.info("Loading Sfalma #{Sfalma::VERSION} for #{Rails::VERSION::STRING}")
         app.config.middleware.use "Rack::RailsSfalma"
+        Sfalma::Startup.announce
       end
     end
   end

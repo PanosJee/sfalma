@@ -7,7 +7,7 @@ module Sfalma
     class << self
       DEFAULTS = {
         :ssl => false,
-        :remote_host_http => 'api.sfalma.com',
+        :remote_host_http => 'localhost', # FIIIXME sfalma.com
         :http_open_timeout => 2,
         :http_read_timeout => 4,
         :disabled_by_default => %w(development test)
@@ -35,12 +35,18 @@ module Sfalma
             @enabled = env_config['enabled']
             @remote_port = config['remote-port'].to_i unless config['remote-port'].nil?
             @remote_host = config['remote-host'] unless config['remote-host'].nil?
+            # VCS
+            @vcs = config['vcs'] unless config['vcs'].nil?
           rescue Exception => e
             raise ConfigurationException.new("Unable to load configuration #{config_file} for environment #{application_environment} : #{e.message}")
           end
         end
       end
-
+      
+      def vcs
+        @vcs ||= nil
+      end
+      
       def api_key
         return @api_key unless @api_key.nil?
         @api_key ||= ENV['EXCEPTIONAL_API_KEY'] unless ENV['EXCEPTIONAL_API_KEY'].nil?
@@ -52,7 +58,7 @@ module Sfalma
 
       def should_send_to_api?
         return @enabled unless @enabled.nil?
-        @enabled = !(DEFAULTS[:disabled_by_default].include?(application_environment))
+        @enabled = true#!(DEFAULTS[:disabled_by_default].include?(application_environment))
       end
 
       def application_root
@@ -68,7 +74,8 @@ module Sfalma
       end
 
       def remote_port
-        @remote_port ||= ssl? ? 443 : 80
+        @remote_port=8080
+        #@remote_port ||= ssl? ? 443 : 80
       end
 
       def reset

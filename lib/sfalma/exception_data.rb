@@ -10,18 +10,52 @@ module Sfalma
     end
 
     def to_hash
-      hash = ::Sfalma::ApplicationEnvironment.to_hash(framework)
+      # Do not send the environment for every exception
+      hash = ::Sfalma::ApplicationEnvironment.to_hash_basic(framework)
+      app_home = hash['application_environment']['app_home']
+      gem_home = hash['application_environment']['gem_home']
+      line_and_number = where(@exception.backtrace, app_home, gem_home)
+      
       hash.merge!({
         'exception' => {
-          'exception_class' => @exception.class.to_s,
+          'klass' => @exception.class.to_s,
           'message' => @exception.message,
-          'backtrace' => @exception.backtrace,
-          'occurred_at' => Time.now.utc.iso8601
+          'backtrace' => normalize(@exception.backtrace, app_home, gem_home),
+          'occurred_at' => Time.now.utc.iso8601,
+          'where' => line_and_number
         }
       })
       hash.merge!(extra_stuff)
       hash.merge!(context_stuff)
+      #hash.merge!(::Sfalma::VCS(line_and_number, app_home).to_hash)
       self.class.sanitize_hash(hash)
+    end
+    
+    def normalize(trace, app_home, gem_home)
+      trace.map do |line|
+        if !line.index(app_home).nil?
+          line.gsub!(app_home,'[APP_HOME]')
+        elsif !line.index(gem_home).nil?
+          line.gsub!(gem_home, '[GEM_HOME]')
+        end
+        line
+      end
+    end
+    
+    def where(trace, app_path, gem_path)
+      line_and_number = ''
+      trace.each do |line|
+        if !line.index(app_path).nil?
+          line_and_number = line[0,line.rindex(':')]
+          puts line
+          break
+        end
+      end
+      if line_and_number == ''
+        line_and_number = trace[0][0,trace[0].rindex(':')]
+      end
+      line_and_number.gsub!(app_path,'').gsub!(gem_path,'') rescue line_and_number
+      line_and_number
     end
 
     def extra_stuff
@@ -54,7 +88,11 @@ module Sfalma
 
     def uniqueness_hash
       return nil if (@exception.backtrace.nil? || @exception.backtrace.empty?)
-      Digest::MD5.hexdigest(@exception.backtrace.join)
+      print @exception.backtrace.size
+      traces = @exception.backtrace.collect{ |line| 
+        line if line.scan(/_run__\d+__process_action__\d+__callbacks/).size<1 
+      }.compact
+      Digest::MD5.hexdigest(traces.join)
     end
 
     def self.sanitize_hash(hash)

@@ -3,7 +3,7 @@ namespace :sfalma do
   task :test => :environment do
     unless Sfalma::Config.api_key.blank?
       puts "Sending test exception to Sfalma."
-      require "exceptional/integration/tester"
+      require "sfalma/integration/tester"
       Sfalma::Integration.test
       puts "Done."
     end

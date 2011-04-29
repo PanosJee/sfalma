@@ -14,11 +14,12 @@ module Sfalma
 
     def extra_stuff                                                                                               
       return {} if @request.nil?
+
       {
         'request' => {
           'url' => (@request.respond_to?(:url) ? @request.url : "#{@request.protocol}#{@request.host}#{@request.request_uri}"),
           'controller' => @controller.class.to_s,
-          'action' => (@request.respond_to?(:parameters) ? @request.parameters['action'] : @request.params['action']),
+          'action' => action_name,
           'parameters' => filter_paramaters(@request.respond_to?(:parameters) ? @request.parameters : @request.params),
           'request_method' => @request.request_method.to_s,
           'remote_ip' => (@request.respond_to?(:remote_ip) ? @request.remote_ip : @request.ip),
@@ -26,6 +27,16 @@ module Sfalma
           'session' => self.class.sanitize_session(@request)
         }
       }
+    end
+    
+    def action_name
+      action_name = ''
+      if @controller.respond_to?(:action_name) 
+        action_name = @controller.action_name.to_s
+      else
+        action_name = (@request.respond_to?(:parameters) ? @request.parameters['action'] : @request.params['action'])
+      end
+      action_name
     end
 
     def filter_hash(keys_to_filter, hash)

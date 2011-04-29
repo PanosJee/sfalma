@@ -3,6 +3,7 @@ require 'digest/md5'
 module Sfalma
   class ApplicationEnvironment
     def self.to_hash(framework)
+      env = extract_environment(ENV)
       {
         'client' => {
           'name' => Sfalma::CLIENT_NAME,
@@ -11,15 +12,31 @@ module Sfalma
         },
         'application_environment' => {
           'environment' => environment,
-          'env' => extract_environment(ENV),
+          #'env' => env,
           'host' => get_hostname,
           'run_as_user' => get_username,
-          'application_root_directory' => (application_root.to_s.respond_to?(:force_encoding) ? application_root.to_s.force_encoding("UTF-8") : application_root),
+          'app_home' => (application_root.to_s.respond_to?(:force_encoding) ? application_root.to_s.force_encoding("UTF-8") : application_root),
+          'gem_home' => env.fetch('GEM_HOME',''),
           'language' => 'ruby',
           'language_version' => language_version_string,
           'framework' => framework,
           'libraries_loaded' => libraries_loaded
         }
+      }
+    end
+    
+    def self.to_hash_basic(framework)
+      {
+        'client' => {
+          'name' => Sfalma::CLIENT_NAME,
+          'version' => Sfalma::VERSION,
+          'protocol_version' => Sfalma::PROTOCOL_VERSION
+        },
+	      'application_environment' => {
+	        'environment' => environment,
+          'app_home' => (application_root.to_s.respond_to?(:force_encoding) ? application_root.to_s.force_encoding("UTF-8") : application_root),
+          'gem_home' => extract_environment(ENV).fetch('GEM_HOME','')
+	      }
       }
     end
 

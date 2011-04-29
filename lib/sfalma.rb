@@ -15,11 +15,12 @@ require 'sfalma/integration/rack'
 require 'sfalma/integration/rack_rails'
 require 'sfalma/integration/alerter'
 require 'sfalma/version'
+require 'sfalma/vcs'
 
 require 'sfalma/railtie' if defined?(Rails::Railtie)
 
 module Sfalma
-  PROTOCOL_VERSION = 5
+  PROTOCOL_VERSION = 1
   CLIENT_NAME = 'sfalma-gem'
   ENVIRONMENT_FILTER = []
 
