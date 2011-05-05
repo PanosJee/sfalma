@@ -89,7 +89,7 @@ module Sfalma
     def uniqueness_hash
       return nil if (@exception.backtrace.nil? || @exception.backtrace.empty?)
       # in case we have the same exception class at the same line but caused by different method
-      @exception.backtrace.push(@exception.message)
+      @exception.backtrace.push(@exception.message.split('#')[0])
       traces = @exception.backtrace.collect{ |line| 
         line if line.scan(/_run__\d+__process_action__\d+__callbacks/).size<1 
       }.compact

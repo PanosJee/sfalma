@@ -7,9 +7,9 @@ module Sfalma
     class << self
       DEFAULTS = {
         :ssl => false,
-        :remote_host_http => 'http://www.sfalma.com',
-        :http_open_timeout => 2,
-        :http_read_timeout => 4,
+        :remote_host_http => 'www.sfalma.com',#'www.sfalma.com',
+        :http_open_timeout => 3,
+        :http_read_timeout => 5,
         :disabled_by_default => %w(development test)
       }
 
@@ -74,7 +74,7 @@ module Sfalma
       end
 
       def remote_port
-        @remote_port =80 #||= ssl? ? 443 : 80, we wait for naked domain SSL on GAE
+        @remote_port = 80 #||= ssl? ? 443 : 80, we wait for naked domain SSL on GAE
       end
 
       def reset
