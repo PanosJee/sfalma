@@ -10,7 +10,6 @@ module Sfalma
     class << self
       def startup_announce(startup_data)
         data = startup_data.to_json
-        #compressed = Zlib::Deflate.deflate(startup_data.to_json, Zlib::BEST_SPEED)
         hash_param = "&hash=#{Digest::MD5.new(data).hexdigest}"
         url = "/api/announcements?protocol_version=#{::Sfalma::PROTOCOL_VERSION}#{hash_param}"
         call_remote(url, data)
@@ -18,15 +17,13 @@ module Sfalma
 
       def error(exception_data)
         uniqueness_hash = exception_data.uniqueness_hash
-      
-        require 'net/http'
-        require 'uri'
+        #require 'net/http'
+        #require 'uri'
         #Net::HTTP.post_form(URI.parse('http://www.postbin.org/pelg4f'), {:data=> exception_data.to_json})
-        
         hash_param = uniqueness_hash.nil? ? nil: "&hash=#{uniqueness_hash}"
         url = "/api/errors?protocol_version=#{::Sfalma::PROTOCOL_VERSION}#{hash_param}"
-        compressed = exception_data.to_json#Zlib::Deflate.deflate(exception_data.to_json, Zlib::BEST_SPEED)
-        #call_remote(url, compressed)
+        compressed = exception_data.to_json
+        call_remote(url, compressed)
       end
 
       def call_remote(url, data)
