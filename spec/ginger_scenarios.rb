@@ -26,22 +26,8 @@ Ginger.configure do |config|
   config.aliases["active_support"] = "activesupport"
   config.aliases["action_controller"] = "actionpack"
 
-  rails_1_2_6 = ScenarioWithName.new("Rails 1.2.6")
-  rails_1_2_6[/^active_?support$/] = "1.4.4"
-  rails_1_2_6[/^active_?record$/] = "1.15.6"
-  rails_1_2_6[/^action_?pack$/] = "1.13.6"
-  rails_1_2_6[/^action_?controller$/] = "1.13.6"
-  rails_1_2_6[/^rails$/] = "1.2.6"
-
-  unless is_ruby_19?
-    config.scenarios << rails_1_2_6
-    config.scenarios << create_scenario("2.0.2")
-    config.scenarios << create_scenario("2.1.2")
-    config.scenarios << create_scenario("2.2.2")
-    config.scenarios << create_scenario("2.3.2")
-  end
   config.scenarios << create_scenario("2.3.3")
   config.scenarios << create_scenario("2.3.4")
   config.scenarios << create_scenario("2.3.5")
-  config.scenarios << create_scenario("3.0.1")
+  config.scenarios << create_scenario("3.0.3")
 end

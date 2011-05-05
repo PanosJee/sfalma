@@ -1,5 +1,14 @@
 Forked and rebranded as Sfalma
-------- 
+
+Sfalam History
+-------
+0.7.0 - Release
+0.6.3 - Added the where attribute (line and number)
+0.6.2 - Normalize the stacktrace within the plugin
+0.6.1 - Modified json so that it matches the Sfalma API spec
+
+Get Exceptional History
+-------
 2.0.11 - Delayed::Job integration
 2.0.10 - Fix thread context not being cleared with every invoication bug
 2.0.9 -

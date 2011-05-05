@@ -1,7 +1,7 @@
 .ginger
 .DS_Store
 coverage
-exceptional-*.gem
+sfalma-*.gem
 doc
 log
 pkg/*

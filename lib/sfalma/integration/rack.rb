@@ -7,8 +7,8 @@ module Rack
     def initialize(app, api_key = nil)
       @app = app
       if api_key.nil?
-        exceptional_config = "config/sfalma.yml"
-        ::Sfalma::Config.load(exceptional_config)
+        sfalma_config = "config/sfalma.yml"
+        ::Sfalma::Config.load(sfalma_config)
       else
         ::Sfalma.configure(api_key)
         ::Sfalma::Config.enabled = true

@@ -88,7 +88,8 @@ module Sfalma
 
     def uniqueness_hash
       return nil if (@exception.backtrace.nil? || @exception.backtrace.empty?)
-      print @exception.backtrace.size
+      # in case we have the same exception class at the same line but caused by different method
+      @exception.backtrace.push(@exception.message)
       traces = @exception.backtrace.collect{ |line| 
         line if line.scan(/_run__\d+__process_action__\d+__callbacks/).size<1 
       }.compact
@@ -96,7 +97,6 @@ module Sfalma
     end
 
     def self.sanitize_hash(hash)
-            
       case hash
         when Hash
           hash.inject({}) do |result, (key, value)|            

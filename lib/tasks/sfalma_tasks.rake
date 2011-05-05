@@ -5,7 +5,7 @@ namespace :sfalma do
       puts "Sending test exception to Sfalma."
       require "sfalma/integration/tester"
       Sfalma::Integration.test
-      puts "Done."
+      puts "Done. You can sleep in peace."
     end
   end
 end

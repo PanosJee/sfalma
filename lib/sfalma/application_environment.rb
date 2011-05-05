@@ -12,7 +12,6 @@ module Sfalma
         },
         'application_environment' => {
           'environment' => environment,
-          #'env' => env,
           'host' => get_hostname,
           'run_as_user' => get_username,
           'app_home' => (application_root.to_s.respond_to?(:force_encoding) ? application_root.to_s.force_encoding("UTF-8") : application_root),

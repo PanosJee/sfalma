@@ -5,12 +5,12 @@ module Sfalma
 
     def self.test
       begin
-        raise SfalmaTestException.new, 'Test exception'
+        raise SfalmaTestException.new, 'Test exception from Rails'
       rescue Exception => e
         unless Sfalma::Remote.error(Sfalma::ExceptionData.new(e, "Test Exception"))
           puts "Problem sending exception to Sfalma. Check your API key."
         else
-          puts "Test Exception sent. Please login to http://www.sfalma.com to see it!"
+          puts "We got one! Head to http://www.sfalma.com/login to see the error!"
         end
       end
     end

@@ -1,3 +1,5 @@
+# If you read the source code you do the right thing! Read code and reach mastery!
+# If you wonder what this is be prepared for a very neat feature! More to come soon!
 module Sfalma
   class VCS
     def init
@@ -8,8 +10,7 @@ module Sfalma
       if vcs.size > 1
         return {}
       else
-        return
-        {
+        return {
           'vcs' => {
             'type' => Sfalma::vcs
           }

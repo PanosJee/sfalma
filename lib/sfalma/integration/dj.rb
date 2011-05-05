@@ -1,8 +1,8 @@
 begin
   class Delayed::Job
-    def log_exception_with_exceptional(e)
+    def log_exception_with_sfalma(e)
       Sfalma.handle(e, "Delayed::Job #{self.name}")
-      log_exception_without_exceptional(e)
+      log_exception_without_sfalma(e)
       Sfalma.context.clear!
     end
     alias_method_chain :log_exception, :sfalma

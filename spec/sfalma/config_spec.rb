@@ -55,12 +55,6 @@ describe Sfalma::Config, 'defaults' do
       Sfalma::Config.load('spec/fixtures/sfalma_disabled.yml')
       Sfalma::Config.api_key.should == 'abc123'
       Sfalma::Config.should_send_to_api?.should == false
-    end    
-    it "allow olded format for exception.yml" do
-      Sfalma::Config.load('spec/fixtures/sfalma_old.yml')
-      Sfalma::Config.api_key.should == 'abc123'
-      Sfalma::Config.ssl?.should == true
-      Sfalma::Config.should_send_to_api?.should == true
     end
     it "load api_key from environment variable" do
       ENV.should_receive(:[]).with('SFALMA_API_KEY').any_number_of_times.and_return('98765')

@@ -1,4 +1,3 @@
-require 'zlib'
 require 'cgi'
 require 'net/http'
 require 'net/https'
@@ -22,8 +21,7 @@ module Sfalma
         #Net::HTTP.post_form(URI.parse('http://www.postbin.org/pelg4f'), {:data=> exception_data.to_json})
         hash_param = uniqueness_hash.nil? ? nil: "&hash=#{uniqueness_hash}"
         url = "/api/errors?protocol_version=#{::Sfalma::PROTOCOL_VERSION}#{hash_param}"
-        compressed = exception_data.to_json
-        call_remote(url, compressed)
+        call_remote(url, exception_data.to_json)
       end
 
       def call_remote(url, data)
